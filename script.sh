@@ -9,7 +9,7 @@ RESET='\033[0m'
 
 # Prompt for user input
 read -p "List number: C" list_number 
-read -p "Test until: ex: " exercise_number
+read -p "Test until: ex" exercise_number
 
 # Generate compilation flags
 compile_flags=""
