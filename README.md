@@ -8,9 +8,9 @@ To install and run the testing script, open your terminal and follow these steps
 
 ```bash
 curl -O https://raw.githubusercontent.com/Poukk/c-piscine-test/main/setup.sh
-chmod +x /setup.sh
+chmod +x ./setup.sh
 ./setup.sh
-rm /setup.sh
+rm ./setup.sh
 ```
 
 ## Usage
