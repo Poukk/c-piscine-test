@@ -7,10 +7,10 @@ This repository provides a script to automate the testing of exercises for the 4
 To install and run the testing script, open your terminal and follow these steps:
 
 ```bash
-curl -O ~/setup.sh https://raw.githubusercontent.com/Poukk/c-piscine-test/main/setup.sh
-chmod +x ~/setup.sh
-~/setup.sh
-rm ~/setup.sh
+curl -O https://raw.githubusercontent.com/Poukk/c-piscine-test/main/setup.sh
+chmod +x /setup.sh
+./setup.sh
+rm /setup.sh
 ```
 
 ## Usage
