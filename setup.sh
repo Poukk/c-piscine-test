@@ -39,23 +39,20 @@ else
     echo -e "${BLUE}${INFO} Repository already cloned in $CPT_DIR.${RESET}"
 fi
 
-# Function to add alias to shell config file
-add_alias() {
-    SHELL_CONFIG_FILE="$1"
-    if ! grep -q "alias $ALIAS_NAME=" "$SHELL_CONFIG_FILE"; then
-        echo -e "${YELLOW}${INFO} Adding alias to $SHELL_CONFIG_FILE...${RESET}"
-        echo "alias $ALIAS_NAME='bash $SCRIPT_FILE'" >> "$SHELL_CONFIG_FILE"
-        echo -e "${GREEN}${CHECK_MARK} Alias added to $SHELL_CONFIG_FILE.${RESET}"
-    else
-        echo -e "${RED}${CROSS_MARK} Alias $ALIAS_NAME already exists in $SHELL_CONFIG_FILE.${RESET}"
-    fi
-}
-
 # Function to add the function to the shell config file
 add_function() {
     SHELL_CONFIG_FILE="$1"
+
+    # Remove existing alias if it exists
+    if grep -q "alias cpt=" "$SHELL_CONFIG_FILE"; then
+        echo -e "${YELLOW}${INFO} Removing existing cpt alias from $SHELL_CONFIG_FILE...${RESET}"
+        sed -i '/alias cpt=/d' "$SHELL_CONFIG_FILE"
+    fi
+
+    # Add the new function
     if ! grep -q "cpt()" "$SHELL_CONFIG_FILE"; then
         echo -e "${YELLOW}${INFO} Adding function to $SHELL_CONFIG_FILE...${RESET}"
+        echo '' >> "$SHELL_CONFIG_FILE"
         echo 'cpt() {' >> "$SHELL_CONFIG_FILE"
         echo '    if [ "$1" == "--upgrade" ]; then' >> "$SHELL_CONFIG_FILE"
         echo "        git -C \"$CPT_DIR\" pull \"$REPO_URL\"" >> "$SHELL_CONFIG_FILE"
@@ -85,20 +82,6 @@ fi
 
 # Inform user to reload shell configurations
 echo -e "${YELLOW}${ALERT} Please restart your shell to apply the new function.${RESET}"
-
-# Add alias to bash, zsh, and fish if they exist
-if [ -f "$HOME_DIR/.bashrc" ]; then
-    add_alias "$HOME_DIR/.bashrc"
-fi
-
-if [ -f "$HOME_DIR/.zshrc" ]; then
-    add_alias "$HOME_DIR/.zshrc"
-fi
-
-if [ -d "$HOME_DIR/.config/fish" ]; then
-    FISH_CONFIG_FILE="$HOME_DIR/.config/fish/config.fish"
-    add_alias "$FISH_CONFIG_FILE"
-fi
 
 # Inform user to reload shell configurations
 echo -e "${YELLOW}${ALERT} Please restart your shell to apply the new aliases.${RESET}"
