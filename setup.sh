@@ -47,7 +47,6 @@ add_alias() {
         echo "alias $ALIAS_NAME='bash $SCRIPT_FILE'" >> "$SHELL_CONFIG_FILE"
         echo "alias '$UPGRADE_ALIAS'='git pull $REPO_URL'" >> "$SHELL_CONFIG_FILE"
         echo -e "${GREEN}${CHECK_MARK} Aliases added to $SHELL_CONFIG_FILE.${RESET}"
-        echo -e "${BLUE}${INFO} Please run 'source $SHELL_CONFIG_FILE' to apply changes.${RESET}"
     else
         echo -e "${RED}${CROSS_MARK} Alias $ALIAS_NAME already exists in $SHELL_CONFIG_FILE.${RESET}"
     fi
