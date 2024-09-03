@@ -71,11 +71,11 @@ if [ -f "$HOME_DIR/.bashrc" ]; then
     add_function "$HOME_DIR/.bashrc"
 fi
 
-if [ -f "$HOME_DIR/.zshrc"; then
+if [ -f "$HOME_DIR/.zshrc" ]; then
     add_function "$HOME_DIR/.zshrc"
 fi
 
-if [ -d "$HOME_DIR/.config/fish"; then
+if [ -d "$HOME_DIR/.config/fish" ]; then
     FISH_CONFIG_FILE="$HOME_DIR/.config/fish/config.fish"
     add_function "$FISH_CONFIG_FILE"
 fi
