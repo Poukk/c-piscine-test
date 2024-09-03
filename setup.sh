@@ -45,7 +45,7 @@ add_alias() {
     if ! grep -q "alias $ALIAS_NAME=" "$SHELL_CONFIG_FILE"; then
         echo -e "${YELLOW}${INFO} Adding alias to $SHELL_CONFIG_FILE...${RESET}"
         echo "alias $ALIAS_NAME='bash $SCRIPT_FILE'" >> "$SHELL_CONFIG_FILE"
-        echo "alias '$UPGRADE_ALIAS'='git -C $CPT_DIR pull'" >> "$SHELL_CONFIG_FILE"
+        echo "alias '$UPGRADE_ALIAS'='git pull $REPO_URL'" >> "$SHELL_CONFIG_FILE"
         echo -e "${GREEN}${CHECK_MARK} Aliases added to $SHELL_CONFIG_FILE.${RESET}"
         echo -e "${BLUE}${INFO} Please run 'source $SHELL_CONFIG_FILE' to apply changes.${RESET}"
     else
