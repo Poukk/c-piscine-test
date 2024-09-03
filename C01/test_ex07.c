@@ -1,0 +1,19 @@
+#include "test_helpers.h"
+
+void ft_rev_int_tab(int *tab, int size);
+
+void cpt_test_exercise() {
+    print_exercise("07", "ft_rev_int_tab");
+    int tab[] = {1, 2, 3, 4, 5};
+    int size = 5;
+    ft_rev_int_tab(tab, size);
+    char expected[40], actual[40];
+    snprintf(expected, sizeof(expected), "5 4 3 2 1");
+    snprintf(actual, sizeof(actual), "%d %d %d %d %d", tab[0], tab[1], tab[2], tab[3], tab[4]);
+    compare_output("Test 1: ft_rev_int_tab({1, 2, 3, 4, 5}, 5)", expected, actual);
+}
+
+int main() {
+    cpt_test_exercise();
+    return 0;
+}

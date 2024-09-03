@@ -11,25 +11,15 @@ CROSS_MARK="\u274C"
 INFO="\u2139"
 ALERT="\u26A0"
 
+# Define variables
+HOME_DIR="$HOME"
+CPT_DIR="$HOME_DIR/.cpt"
+HELPERS_DIR="$CPT_DIR/helpers"
+COMPILE_FLAGS="-Wall -Werror -Wextra"
+
 # Prompt for user input
 read -p "List number: C" list_number
 read -p "Test until: ex" exercise_number
-
-# Generate compilation flags
-compile_flags=""
-for i in $(seq -w 0 $exercise_number); do
-    compile_flags="$compile_flags -D EX$i ex$i/*.c"
-done
-
-# Compile the code
-echo -e "${BLUE}${INFO} Compiling...${RESET}"
-cc -Wall -Werror -Wextra $compile_flags ~/.cpt/C$list_number/main.c
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}${CHECK_MARK} Compilation successful.${RESET}"
-else
-    echo -e "${RED}${CROSS_MARK} Compilation failed.${RESET}"
-    exit 1
-fi
 
 # Analyze the norm
 echo -e "${BLUE}${INFO} Analyzing the norm...${RESET}"
@@ -40,17 +30,10 @@ else
     echo -e "${RED}${CROSS_MARK} Norminette check failed.${RESET}"
 fi
 
-# Test exercises
-echo -e "${BLUE}${INFO} Testing exercises...${RESET}"
-./a.out $exercise_number
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}${CHECK_MARK} All tests passed successfully.${RESET}"
-else
-    echo -e "${RED}${CROSS_MARK} Execution failed.${RESET}"
-    exit 1
-fi
-
-# Clean up
-echo -e "${BLUE}${INFO} Cleaning up...${RESET}"
-rm a.out
-echo -e "${GREEN}${CHECK_MARK} Cleanup completed.${RESET}"
+# Compile the code
+echo -e "${BLUE}${INFO} Compiling and testing exercises...${RESET}"
+for i in $(seq -w 0 $exercise_number); do
+    cc -o ex$i/ex$i $COMPILE_FLAGS ex$i/*.c ~/.cpt/C$list_number/test_ex$i.c $HELPERS_DIR/test_helpers.c -I $HELPERS_DIR
+    ./ex$i/ex$i
+    rm ./ex$i/ex$i
+done
