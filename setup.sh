@@ -45,12 +45,46 @@ add_alias() {
     if ! grep -q "alias $ALIAS_NAME=" "$SHELL_CONFIG_FILE"; then
         echo -e "${YELLOW}${INFO} Adding alias to $SHELL_CONFIG_FILE...${RESET}"
         echo "alias $ALIAS_NAME='bash $SCRIPT_FILE'" >> "$SHELL_CONFIG_FILE"
-        echo "alias '$UPGRADE_ALIAS'='git pull $REPO_URL'" >> "$SHELL_CONFIG_FILE"
-        echo -e "${GREEN}${CHECK_MARK} Aliases added to $SHELL_CONFIG_FILE.${RESET}"
+        echo -e "${GREEN}${CHECK_MARK} Alias added to $SHELL_CONFIG_FILE.${RESET}"
     else
         echo -e "${RED}${CROSS_MARK} Alias $ALIAS_NAME already exists in $SHELL_CONFIG_FILE.${RESET}"
     fi
 }
+
+# Function to add the function to the shell config file
+add_function() {
+    SHELL_CONFIG_FILE="$1"
+    if ! grep -q "cpt()" "$SHELL_CONFIG_FILE"; then
+        echo -e "${YELLOW}${INFO} Adding function to $SHELL_CONFIG_FILE...${RESET}"
+        echo 'cpt() {' >> "$SHELL_CONFIG_FILE"
+        echo '    if [ "$1" == "--upgrade" ]; then' >> "$SHELL_CONFIG_FILE"
+        echo "        git -C \"$CPT_DIR\" pull \"$REPO_URL\"" >> "$SHELL_CONFIG_FILE"
+        echo '    else' >> "$SHELL_CONFIG_FILE"
+        echo "        bash \"$SCRIPT_FILE\" \"\$@\"" >> "$SHELL_CONFIG_FILE"
+        echo '    fi' >> "$SHELL_CONFIG_FILE"
+        echo '}' >> "$SHELL_CONFIG_FILE"
+        echo -e "${GREEN}${CHECK_MARK} Function added to $SHELL_CONFIG_FILE.${RESET}"
+    else
+        echo -e "${RED}${CROSS_MARK} Function already exists in $SHELL_CONFIG_FILE.${RESET}"
+    fi
+}
+
+# Add function to bash, zsh, and fish if they exist
+if [ -f "$HOME_DIR/.bashrc" ]; then
+    add_function "$HOME_DIR/.bashrc"
+fi
+
+if [ -f "$HOME_DIR/.zshrc" ]; then
+    add_function "$HOME_DIR/.zshrc"
+fi
+
+if [ -d "$HOME_DIR/.config/fish" ]; then
+    FISH_CONFIG_FILE="$HOME_DIR/.config/fish/config.fish"
+    add_function "$FISH_CONFIG_FILE"
+fi
+
+# Inform user to reload shell configurations
+echo -e "${YELLOW}${ALERT} Please restart your shell to apply the new function.${RESET}"
 
 # Add alias to bash, zsh, and fish if they exist
 if [ -f "$HOME_DIR/.bashrc" ]; then
