@@ -18,17 +18,17 @@ HOME_DIR="$HOME"
 CPT_DIR="$HOME_DIR/.cpt"
 REPO_URL="https://github.com/Poukk/c-piscine-test"
 SCRIPT_FILE="$CPT_DIR/script.sh"
-ALIAS_NAME="cpt"
-UPGRADE_ALIAS="cpt --upgrade"
 
-# Create .cpt directory if it doesn't exist
-if [ ! -d "$CPT_DIR" ]; then
-    echo -e "${YELLOW}${INFO} Creating directory $CPT_DIR...${RESET}"
-    mkdir "$CPT_DIR"
-    echo -e "${GREEN}${CHECK_MARK} Directory $CPT_DIR created.${RESET}"
-else
-    echo -e "${BLUE}${INFO} Directory $CPT_DIR already exists.${RESET}"
+# Create .cpt directory
+if [ -d "$CPT_DIR" ]; then
+    echo -e "${YELLOW}${INFO} Deleting existing directory $CPT_DIR...${RESET}"
+    rm -rf "$CPT_DIR"
+    echo -e "${GREEN}${CHECK_MARK} Directory $CPT_DIR deleted.${RESET}"
 fi
+
+echo -e "${YELLOW}${INFO} Creating directory $CPT_DIR...${RESET}"
+mkdir "$CPT_DIR"
+echo -e "${GREEN}${CHECK_MARK} Directory $CPT_DIR created.${RESET}"
 
 # Clone the Git repository into .cpt
 if [ ! -d "$CPT_DIR/.git" ]; then
